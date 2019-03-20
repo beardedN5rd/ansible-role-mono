@@ -1,0 +1,40 @@
+---
+
+- name: Mono requirements
+  apt:
+    cache_valid_time: 3600
+    name: "{{item}}"
+    state: present
+  with_items:
+    - apt-transport-https
+    - dirmngr
+
+- name: Mono
+  apt:
+    cache_valid_time: 3600
+    name: "{{item}}"
+    state: present
+    update_cache: true
+  with_items:
+    - mono-devel
+    - mono-profiler
+    - mono-tools-devel
+
+- name: Monodevelop repo key
+  apt_key:
+    keyserver: hkp://keyserver.ubuntu.com:80
+    id: 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+
+- name: Monodevelop repo
+  apt_repository:
+    repo: deb https://download.mono-project.com/repo/ubuntu vs-bionic main
+    state: present
+
+- name: Monodevel IDE
+  apt:
+    cache_valid_time: 3600
+    name: "{{item}}"
+    state: present
+    update_cache: true
+  with_items:
+    - monodevelop
